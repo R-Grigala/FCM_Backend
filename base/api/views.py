@@ -27,10 +27,14 @@ from rest_framework.response import Response
 #         serializer = TokenSerializer(events, many=True)
 #         return Response(serializer.data)
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 class ExampleView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
+    def get(self, request):
         events = FCMToken.objects.all()
         serializer = TokenSerializer(events, many=True)
         return Response(serializer.data)
