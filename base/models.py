@@ -1,9 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+import uuid
+
 
 class FCMToken(models.Model):
     id = models.AutoField(primary_key=True)
     token = models.CharField(max_length=255)
+    device_id = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
