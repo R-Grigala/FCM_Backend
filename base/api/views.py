@@ -20,51 +20,25 @@ class ExampleView(APIView):
         # Return the serialized data
         return Response(serializer.data)
 
-    # def post(self, request):
-    #     # Extract the token value from the request body
-    #     token = request.data.get('token')
-
-    #     # Check if a token with the same value already exists
-    #     existing_token = FCMToken.objects.filter(token=token).first()
-
-    #     if existing_token:
-    #         # If a token with the same value exists, update its updated_at field
-    #         existing_token.save()
-
-    #         # Serialize the updated FCMToken object
-    #         serializer = TokenSerializer(existing_token)
-    #     else:
-    #         # If a token with the same value does not exist, create a new FCMToken object with the provided token value
-    #         token_object = FCMToken.objects.create(token=token)
-
-    #         # Serialize the new FCMToken object
-    #         serializer = TokenSerializer(token_object)
-
-    #     # Return the serialized data
-    #     return Response(serializer.data)
-
     def post(self, request):
-        # Extract the data from the request body
-        data = request.data
+        # Extract the token value from the request body
+        token = request.data.get('token')
 
-        # Check if a token with the same device ID already exists
-        existing_token = FCMToken.objects.filter(device_id=data.get('device_id')).first()
+        # Check if a token with the same value already exists
+        existing_token = FCMToken.objects.filter(token=token).first()
 
         if existing_token:
-            # If a token with the same device ID exists, update its token value
-            existing_token.token = data['token']
+            # If a token with the same value exists, update its updated_at field
             existing_token.save()
 
             # Serialize the updated FCMToken object
             serializer = TokenSerializer(existing_token)
         else:
-            # If a token with the same device ID does not exist, create a new FCMToken object
-            token = FCMToken.objects.create(
-                token=data['token']
-            )
+            # If a token with the same value does not exist, create a new FCMToken object with the provided token value
+            token_object = FCMToken.objects.create(token=token)
 
             # Serialize the new FCMToken object
-            serializer = TokenSerializer(token)
+            serializer = TokenSerializer(token_object)
 
         # Return the serialized data
         return Response(serializer.data)
