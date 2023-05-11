@@ -1,8 +1,9 @@
 from django.urls import path
-from . import views
-from .views import ExampleView
+# from . import views
+from .views import *
 
 urlpatterns = [
     # path('', views.token_list)
-    path('', ExampleView.as_view())
+    path('fcmtokens', FCMView.as_view()),
+    path('newsposts', NewsView.as_view())
 ]

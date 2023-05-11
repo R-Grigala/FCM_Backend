@@ -1,11 +1,11 @@
-from ..models import FCMToken
-from .serializers import TokenSerializer
+from ..models import *
+from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-class ExampleView(APIView):
+class FCMView(APIView):
     # Require authentication and authorization for this endpoint
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -42,3 +42,21 @@ class ExampleView(APIView):
 
         # Return the serialized data
         return Response(serializer.data)
+    
+
+class NewsView(APIView):
+    # Require authentication and authorization for this endpoint
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+    def get(self, request):
+        # Retrieve all FCMToken objects from the database
+        news = NewsPost.objects.all()
+
+        # Serialize the FCMToken objects
+        serializer = NewsSerializer(news, many=True)
+
+        # Return the serialized data
+        return Response(serializer.data)
+
